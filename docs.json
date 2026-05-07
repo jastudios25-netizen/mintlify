@@ -16,7 +16,7 @@
       "server": "https://api.phanomcloud.online",
       "auth": {
         "method": "bearer",
-        "name": null
+        "name": "Authorization"
       }
     }
   },
