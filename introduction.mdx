@@ -1,20 +1,22 @@
 ---
 title: "Introduction"
-description: "Welcome to the ShardCloud API — host and manage your bots in the cloud."
+description: "Welcome to the PhanomCloud API — host and manage your bots in the cloud."
 ---
 
 <img
   className="block dark:hidden"
-  src="/images/hero-light.png"
-  alt="ShardCloud"
+  alt="Banner Phanom"
+  title="Banner Phanom"
+  src="images/banner-phanom.jpg"
 />
 <img
   className="hidden dark:block"
+  alt="Banner Phanom"
+  title="Banner Phanom"
   src="/images/hero-dark.png"
-  alt="ShardCloud"
 />
 
-## What is ShardCloud?
+## What is PhanomCloud?
 
 ShardCloud is a cloud hosting platform for bots and applications. With our API you can create, start, stop, monitor and manage your bots programmatically — perfect for CI/CD pipelines, dashboards and automation tools.
 
@@ -22,7 +24,7 @@ ShardCloud is a cloud hosting platform for bots and applications. With our API y
 
 All API requests must be made to:
 
-```
+```text
 https://api.phanomcloud.online
 ```
 
@@ -68,20 +70,20 @@ Every endpoint returns a JSON object in one of these two shapes:
 
 ## Supported Languages
 
-| Language | Value    |
-|----------|----------|
-| Node.js  | `nodejs` |
-| Python   | `python` |
-| Java     | `java`   |
-| Go       | `go`     |
-| Rust     | `rust`   |
+| Language | Value |
+| --- | --- |
+| Node.js | `nodejs` |
+| Python | `python` |
+| Java | `java` |
+| Go | `go` |
+| Rust | `rust` |
 
 ## Bot Status Reference
 
-| Status     | Description                              |
-|------------|------------------------------------------|
-| `offline`  | Bot is stopped                           |
-| `starting` | Container is being created and launched  |
-| `online`   | Bot is running normally                  |
-| `stopping` | Bot is in the process of shutting down   |
-| `error`    | Bot failed to start                      |
+| Status | Description |
+| --- | --- |
+| `offline` | Bot is stopped |
+| `starting` | Container is being created and launched |
+| `online` | Bot is running normally |
+| `stopping` | Bot is in the process of shutting down |
+| `error` | Bot failed to start |
