@@ -6,7 +6,10 @@
     "light": "#bcbcbc",
     "dark": "#959494"
   },
-  "favicon": "/favicon.svg",
+  "favicon": {
+    "light": "/images/branca.png",
+    "dark": "/images/preta.png"
+  },
   "logo": {
     "light": "/images/branca.png",
     "dark": "/images/preta.png"
