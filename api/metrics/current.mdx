@@ -1,0 +1,88 @@
+---
+title: "Current Metrics"
+api: "GET https://api.phanomcloud.online/bots/{id}/metrics"
+description: "Returns the latest resource usage snapshot for a bot. Collected every 30 seconds automatically."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+## Response
+
+<ResponseField name="data.bot_id" type="string">UUID of the bot.</ResponseField>
+<ResponseField name="data.status" type="string">Current bot status.</ResponseField>
+<ResponseField name="data.current" type="object | null">
+  `null` if bot is offline or metrics aren't available yet.
+
+  <Expandable title="Metrics snapshot">
+    <ResponseField name="timestamp" type="string">ISO 8601 timestamp of this snapshot.</ResponseField>
+    <ResponseField name="cpu_percent" type="number">CPU usage in percent.</ResponseField>
+    <ResponseField name="ram_used" type="number">RAM used in bytes.</ResponseField>
+    <ResponseField name="ram_limit" type="number">RAM limit in bytes.</ResponseField>
+    <ResponseField name="ram_percent" type="number">RAM usage as percentage of limit.</ResponseField>
+    <ResponseField name="net_rx" type="number">Total bytes received (cumulative).</ResponseField>
+    <ResponseField name="net_tx" type="number">Total bytes sent (cumulative).</ResponseField>
+    <ResponseField name="net_rx_rate" type="number">Current receive rate in bytes/s.</ResponseField>
+    <ResponseField name="net_tx_rate" type="number">Current send rate in bytes/s.</ResponseField>
+    <ResponseField name="pids" type="number">Number of active processes.</ResponseField>
+  </Expandable>
+</ResponseField>
+<ResponseField name="data.current_display" type="object">
+  Human-readable versions of the same fields (e.g. `"128 MB / 256 MB (50.00%)"`).
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/metrics \
+  -H "Authorization: Bearer sess_..."
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200 — Online
+{
+  "success": true,
+  "data": {
+    "bot_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "status": "online",
+    "current": {
+      "timestamp": "2025-01-15T10:00:00Z",
+      "cpu_percent": 12.5,
+      "ram_used": 134217728,
+      "ram_limit": 268435456,
+      "ram_percent": 50.0,
+      "net_rx": 1048576,
+      "net_tx": 524288,
+      "net_rx_rate": 1024.5,
+      "net_tx_rate": 512.2,
+      "pids": 3
+    },
+    "current_display": {
+      "cpu": "12.50%",
+      "ram": "128 MB / 256 MB (50.00%)",
+      "net_rx": "1 MB",
+      "net_tx": "512 KB",
+      "net_rx_rate": "1 KB/s",
+      "net_tx_rate": "512 B/s",
+      "pids": "3"
+    }
+  }
+}
+```
+
+```json 200 — Offline
+{
+  "success": true,
+  "data": {
+    "bot_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "status": "offline",
+    "current": null,
+    "message": "Bot is offline. Start the bot to see metrics."
+  }
+}
+```
+</ResponseExample>

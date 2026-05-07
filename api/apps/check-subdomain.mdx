@@ -1,0 +1,80 @@
+---
+title: "Check Subdomain"
+api: "GET https://api.phanomcloud.online/apps/check/{name}"
+description: "Checks if a subdomain name is available. Public endpoint — no authentication required."
+---
+
+## Path Parameters
+
+<ParamField path="name" type="string" required>
+  The subdomain name to check. Lowercase letters, numbers and hyphens only.
+</ParamField>
+
+## Validation Rules
+
+| Rule | Requirement |
+|------|-------------|
+| Length | Between 3 and 32 characters |
+| Characters | Lowercase letters, numbers and hyphens (`-`) only |
+| Start/End | Cannot start or end with a hyphen |
+| Reserved names | Cannot use reserved names like `api`, `www`, `admin`, `dashboard`, etc. |
+
+<RequestExample>
+```bash cURL
+curl https://api.phanomcloud.online/apps/check/my-cool-app
+```
+
+```js JavaScript
+const res = await fetch("https://api.phanomcloud.online/apps/check/my-cool-app");
+const { data } = await res.json();
+
+if (data.available) {
+  console.log("Available at:", data.url);
+} else {
+  console.log("Unavailable:", data.reason);
+}
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200 — Available
+{
+  "success": true,
+  "data": {
+    "available": true,
+    "name": "my-cool-app",
+    "url": "https://my-cool-app.phanomcloud.online"
+  }
+}
+```
+
+```json 200 — Taken
+{
+  "success": true,
+  "data": {
+    "available": false,
+    "reason": "\"my-cool-app\" is already taken"
+  }
+}
+```
+
+```json 200 — Reserved
+{
+  "success": true,
+  "data": {
+    "available": false,
+    "reason": "\"admin\" is a reserved name"
+  }
+}
+```
+
+```json 200 — Invalid format
+{
+  "success": true,
+  "data": {
+    "available": false,
+    "reason": "Only lowercase letters, numbers and hyphens. Cannot start or end with hyphen."
+  }
+}
+```
+</ResponseExample>

@@ -1,0 +1,58 @@
+---
+title: "Write File"
+api: "PUT https://api.phanomcloud.online/bots/{id}/files/content"
+description: "Creates or overwrites a file in the bot's directory with the given content."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+## Body
+
+<ParamField body="path" type="string" required>
+  Relative path of the file to write. Example: `index.js` or `src/utils/helper.js`. Max: 512 characters.
+</ParamField>
+
+<ParamField body="content" type="string" required>
+  Text content to write to the file. Max: **1 MB**.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X PUT https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/files/content \
+  -H "Authorization: Bearer sess_..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "path": "index.js",
+    "content": "console.log(\"Hello World\");"
+  }'
+```
+
+```js JavaScript
+await fetch("https://api.phanomcloud.online/bots/BOT_ID/files/content", {
+  method: "PUT",
+  headers: {
+    Authorization: "Bearer sess_...",
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    path: "config.json",
+    content: JSON.stringify({ prefix: "!", debug: false }, null, 2)
+  })
+});
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": { "path": "index.js" },
+  "message": "File saved. Restart the bot to apply changes."
+}
+```
+</ResponseExample>

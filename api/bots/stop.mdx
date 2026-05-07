@@ -1,0 +1,42 @@
+---
+title: "Stop Bot"
+api: "POST https://api.phanomcloud.online/bots/stop"
+description: "Stops a running bot. Returns immediately — shutdown happens in the background."
+authMethod: "bearer"
+---
+
+## Body
+
+<ParamField body="bot_id" type="string" required>
+  UUID of the bot to stop.
+</ParamField>
+
+<Info>
+  The shutdown sequence sends **SIGTERM**, waits 10 seconds, then sends **SIGKILL** if the process hasn't exited. The response is returned immediately with `status: "stopping"`.
+</Info>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.phanomcloud.online/bots/stop \
+  -H "Authorization: Bearer sess_..." \
+  -H "Content-Type: application/json" \
+  -d '{ "bot_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6" }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "message": "Bot \"my-discord-bot\" is stopping",
+  "data": { "status": "stopping" }
+}
+```
+
+```json 409
+{
+  "success": false,
+  "error": "Bot is already offline"
+}
+```
+</ResponseExample>

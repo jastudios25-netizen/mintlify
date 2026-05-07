@@ -1,0 +1,51 @@
+---
+title: "Restore Backup"
+api: "POST https://api.phanomcloud.online/bots/{id}/backups/{backupId}/restore"
+description: "Restores a backup, overwriting the bot's current files. The bot must be offline."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+<ParamField path="backupId" type="string" required>
+  UUID of the backup to restore.
+</ParamField>
+
+<Warning>
+  The bot must be **offline** before restoring. All current files will be overwritten. Start the bot after restoring to run the recovered version.
+</Warning>
+
+## Process
+
+1. Verifies ownership of both bot and backup
+2. Verifies the bot is offline
+3. Extracts the backup ZIP, overwriting `/bots/{id}/`
+4. Returns the number of files restored
+
+<RequestExample>
+```bash cURL
+curl -X POST "https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/backups/c1a2b3d4-0000-0000-0000-000000000001/restore" \
+  -H "Authorization: Bearer sess_..."
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": { "files_restored": 15 },
+  "message": "Backup restored. Start the bot to run the restored version."
+}
+```
+
+```json 409
+{
+  "success": false,
+  "error": "Bot must be offline before restoring a backup."
+}
+```
+</ResponseExample>

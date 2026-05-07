@@ -1,0 +1,51 @@
+---
+title: "Reinstall Dependencies"
+api: "POST https://api.phanomcloud.online/bots/{id}/deps/reinstall"
+description: "Clears installed dependencies so they are fully reinstalled on the next bot start. The bot must be offline."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot. Must be offline.
+</ParamField>
+
+## What gets removed
+
+| Language | Files/folders removed |
+|----------|-----------------------|
+| `nodejs` | `node_modules/`, `.pkg_sig` |
+| `python` | `__pycache__/`, `venv/`, `.req_sig` |
+| `go`     | `vendor/` |
+| `rust`   | `target/` |
+
+<Note>
+  After clearing, simply start the bot — dependencies will be reinstalled automatically from your `package.json`, `requirements.txt`, `go.mod`, or `Cargo.toml`.
+</Note>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/deps/reinstall \
+  -H "Authorization: Bearer sess_..."
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": {
+    "removed": ["node_modules", ".pkg_sig"]
+  },
+  "message": "Dependencies cleared (node_modules, .pkg_sig). Start the bot to reinstall."
+}
+```
+
+```json 409
+{
+  "success": false,
+  "error": "Bot must be offline before reinstalling dependencies. Stop the bot first."
+}
+```
+</ResponseExample>

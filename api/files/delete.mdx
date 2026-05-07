@@ -1,0 +1,48 @@
+---
+title: "Delete File"
+api: "DELETE https://api.phanomcloud.online/bots/{id}/files/delete"
+description: "Permanently removes a file or folder from the bot's directory."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+## Body
+
+<ParamField body="path" type="string" required>
+  Relative path of the file or folder to delete. Example: `old-script.js` or `src/legacy/`.
+</ParamField>
+
+<Warning>
+  This action is irreversible. Make a backup before deleting important files.
+</Warning>
+
+<RequestExample>
+```bash cURL
+curl -X DELETE https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/files/delete \
+  -H "Authorization: Bearer sess_..." \
+  -H "Content-Type: application/json" \
+  -d '{ "path": "old-script.js" }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": { "path": "old-script.js" },
+  "message": "Deleted successfully."
+}
+```
+
+```json 404
+{
+  "success": false,
+  "error": "File not found: old-script.js"
+}
+```
+</ResponseExample>

@@ -1,0 +1,69 @@
+---
+title: "Upload Files"
+api: "POST https://api.phanomcloud.online/bots/{id}/upload"
+description: "Uploads a .zip or .rar archive and extracts its contents into the bot's directory."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+## Body
+
+Send as `multipart/form-data`.
+
+<ParamField body="file" type="file" required>
+  A `.zip` or `.rar` file. Maximum size: **200 MB**.
+</ParamField>
+
+<Note>
+  If the bot is currently online, a restart is required to apply the new files.
+</Note>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/upload \
+  -H "Authorization: Bearer sess_..." \
+  -F "file=@my-bot.zip"
+```
+
+```js JavaScript (FormData)
+const form = new FormData();
+form.append("file", fileInput.files[0]);
+
+const res = await fetch(
+  "https://api.phanomcloud.online/bots/BOT_ID/upload",
+  {
+    method: "POST",
+    headers: { Authorization: "Bearer sess_..." },
+    body: form
+  }
+);
+const { data } = await res.json();
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": {
+    "files_extracted": 12,
+    "files": ["index.js", "package.json", "src/commands/ping.js"],
+    "format": "zip",
+    "size_bytes": 45678
+  },
+  "message": "12 files uploaded (zip). Start the bot to run them."
+}
+```
+
+```json 400
+{
+  "success": false,
+  "error": "Only .zip and .rar files are allowed"
+}
+```
+</ResponseExample>

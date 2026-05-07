@@ -1,0 +1,62 @@
+---
+title: "Execute Console Command"
+api: "POST https://api.phanomcloud.online/bots/{id}/console"
+description: "Executes a command inside the bot's Docker container via docker exec."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot. Must be online.
+</ParamField>
+
+## Body
+
+<ParamField body="command" type="string" required>
+  Command to execute inside the container. Example: `ls -la` or `node -e "console.log(process.version)"`.
+</ParamField>
+
+<Warning>
+  The bot must be **online** to use this endpoint. Commands have a **30-second timeout**. The command is split by whitespace — no shell injection is possible.
+</Warning>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/console \
+  -H "Authorization: Bearer sess_..." \
+  -H "Content-Type: application/json" \
+  -d '{ "command": "ls -la" }'
+```
+
+```js JavaScript
+const res = await fetch("https://api.phanomcloud.online/bots/BOT_ID/console", {
+  method: "POST",
+  headers: {
+    Authorization: "Bearer sess_...",
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ command: "node --version" })
+});
+const { data } = await res.json();
+console.log(data.output);
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": {
+    "output": "total 48\ndrwxr-xr-x 5 root root 4096 Jan 15 10:00 .\ndrwxr-xr-x 3 root root 4096 Jan 15 09:00 ..\n-rw-r--r-- 1 root root 1234 Jan 15 09:30 index.js\n-rw-r--r-- 1 root root  567 Jan 15 09:30 package.json\n"
+  }
+}
+```
+
+```json 409
+{
+  "success": false,
+  "error": "Bot must be online to execute commands"
+}
+```
+</ResponseExample>

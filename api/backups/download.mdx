@@ -1,0 +1,67 @@
+---
+title: "Download Backup"
+api: "GET https://api.phanomcloud.online/backups/{backupId}/download"
+description: "Downloads the ZIP file of a backup using a signed URL. No session token required — uses an HMAC token from the list endpoint."
+---
+
+## Path Parameters
+
+<ParamField path="backupId" type="string" required>
+  UUID of the backup to download.
+</ParamField>
+
+## Query Parameters
+
+<ParamField query="token" type="string" required>
+  HMAC-signed token from the `download_url` returned by `GET /bots/:id/backups`. Valid for approximately **1 hour**.
+</ParamField>
+
+<ParamField query="user" type="string" required>
+  UUID of the user who owns the backup.
+</ParamField>
+
+<Note>
+  Do not construct this URL manually. Always use the `download_url` returned by the **List Backups** endpoint, which contains a pre-signed token valid for 1 hour.
+</Note>
+
+## Response
+
+Returns the backup as a `.zip` file with:
+- `Content-Type: application/zip`
+- `Content-Disposition: attachment; filename="backup-name.zip"`
+
+<RequestExample>
+```bash cURL
+# Use the full download_url from GET /bots/:id/backups
+curl -L "https://api.phanomcloud.online/backups/c1a2b3d4.../download?token=HMAC_TOKEN&user=USER_UUID" \
+  -o backup.zip
+```
+
+```js JavaScript
+// Get the URL from the list endpoint first
+const { data } = await (await fetch("/bots/BOT_ID/backups", {
+  headers: { Authorization: "Bearer sess_..." }
+})).json();
+
+const downloadUrl = data.backups[0].download_url;
+window.location.href = downloadUrl; // triggers browser download
+```
+</RequestExample>
+
+<ResponseExample>
+```
+HTTP/1.1 200 OK
+Content-Type: application/zip
+Content-Disposition: attachment; filename="before-v2-update.zip"
+Content-Length: 45678
+
+[binary zip data]
+```
+
+```json 401
+{
+  "success": false,
+  "error": "Token expired or invalid"
+}
+```
+</ResponseExample>

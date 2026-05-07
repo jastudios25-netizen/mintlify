@@ -1,0 +1,40 @@
+---
+title: "Authentication"
+description: "How to authenticate your requests to the ShardCloud API."
+---
+
+## Bearer Token
+
+All API endpoints (except public ones) require an `Authorization` header with your session token:
+
+```http
+Authorization: Bearer sess_your_token_here
+```
+
+Your `session_token` is obtained after logging in via Discord OAuth2 on the [ShardCloud Dashboard](https://shardcloud.app).
+
+<Warning>
+  Never share your `session_token`. It grants full access to your account and all your bots.
+</Warning>
+
+## Automation Token
+
+For CI/CD pipelines and automated scripts, use the `automation_token` with the `X-Automation-Token` header instead. You can retrieve and rotate it from your account settings.
+
+```http
+X-Automation-Token: auto_your_token_here
+```
+
+## Rate Limiting
+
+All routes are rate limited. Authentication endpoints have stricter limits to prevent abuse. If you hit a rate limit, the API returns HTTP `429 Too Many Requests`.
+
+## Public Routes
+
+The following routes do not require any authentication:
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET`  | `/health` | API health check |
+| `GET`  | `/apps/check/:name` | Check subdomain availability |
+| `GET`  | `/backups/:id/download` | Download a backup (requires signed token from list endpoint) |

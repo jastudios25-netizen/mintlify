@@ -1,0 +1,46 @@
+---
+title: "Delete Bot"
+api: "DELETE https://api.phanomcloud.online/bots/{id}"
+description: "Permanently deletes a bot, stops its container, and frees its memory allocation."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot to delete.
+</ParamField>
+
+<Warning>
+  This action is **irreversible**. The bot, all its files, and all its backups will be permanently removed.
+</Warning>
+
+## Process
+
+1. Stops the container if it is running
+2. Removes the Docker container
+3. Frees the memory allocation from your plan
+4. Deletes the bot record from the database
+
+<RequestExample>
+```bash cURL
+curl -X DELETE https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6 \
+  -H "Authorization: Bearer sess_..."
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "message": "Bot \"my-discord-bot\" deleted"
+}
+```
+
+```json 404
+{
+  "success": false,
+  "error": "Bot not found"
+}
+```
+</ResponseExample>

@@ -1,0 +1,63 @@
+---
+title: "Get Bot"
+api: "GET https://api.phanomcloud.online/bots/{id}"
+description: "Returns a single bot by ID. Only returns bots owned by the authenticated user."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+## Response
+
+<ResponseField name="data" type="object">
+  <Expandable title="Bot object">
+    <ResponseField name="id" type="string">UUID of the bot.</ResponseField>
+    <ResponseField name="name" type="string">Bot name.</ResponseField>
+    <ResponseField name="language" type="string">Runtime language.</ResponseField>
+    <ResponseField name="status" type="string">Current status.</ResponseField>
+    <ResponseField name="memory" type="number">Allocated RAM in MB.</ResponseField>
+    <ResponseField name="vcpu" type="number">Allocated vCPU.</ResponseField>
+    <ResponseField name="startup_command" type="string">Startup command.</ResponseField>
+    <ResponseField name="environment" type="object">Environment variables (keys only, values hidden).</ResponseField>
+    <ResponseField name="subdomain" type="string | null">Custom subdomain.</ResponseField>
+    <ResponseField name="created_at" type="string">ISO 8601 creation timestamp.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6 \
+  -H "Authorization: Bearer sess_..."
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "name": "my-discord-bot",
+    "language": "nodejs",
+    "status": "online",
+    "memory": 256,
+    "vcpu": 0.5,
+    "startup_command": "node index.js",
+    "environment": { "TOKEN": "***", "PREFIX": "***" },
+    "subdomain": "my-discord-bot",
+    "created_at": "2025-01-01T00:00:00Z"
+  }
+}
+```
+
+```json 404
+{
+  "success": false,
+  "error": "Bot not found"
+}
+```
+</ResponseExample>

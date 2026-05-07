@@ -1,0 +1,61 @@
+---
+title: "Start Bot"
+api: "POST https://api.phanomcloud.online/bots/start"
+description: "Starts a bot by creating and launching its Docker container. Returns immediately — startup happens in the background."
+authMethod: "bearer"
+---
+
+## Body
+
+<ParamField body="bot_id" type="string" required>
+  UUID of the bot to start.
+</ParamField>
+
+<Info>
+  The response is returned **immediately** with `status: "starting"`. Track the real status via `GET /bots/:id` or stream logs with `GET /bots/:id/logs/stream`.
+</Info>
+
+## Process
+
+1. Validates ownership
+2. Creates a Docker container (`bot_<id>`) with `--memory` and `--cpus` limits
+3. Starts the container
+4. Begins async log capture
+5. Updates status to `"online"` once running
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.phanomcloud.online/bots/start \
+  -H "Authorization: Bearer sess_..." \
+  -H "Content-Type: application/json" \
+  -d '{ "bot_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6" }'
+```
+
+```js JavaScript
+const res = await fetch("https://api.phanomcloud.online/bots/start", {
+  method: "POST",
+  headers: {
+    Authorization: "Bearer sess_...",
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ bot_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6" })
+});
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "message": "Bot \"my-discord-bot\" is starting",
+  "data": { "status": "starting" }
+}
+```
+
+```json 409
+{
+  "success": false,
+  "error": "Bot is already online"
+}
+```
+</ResponseExample>

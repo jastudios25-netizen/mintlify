@@ -1,0 +1,45 @@
+---
+title: "Read File"
+api: "GET https://api.phanomcloud.online/bots/{id}/files/content"
+description: "Returns the text content of a specific file in the bot's directory."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+## Query Parameters
+
+<ParamField query="path" type="string" required>
+  Relative path to the file inside the bot's directory. Example: `index.js` or `src/commands/ping.js`.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl "https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/files/content?path=index.js" \
+  -H "Authorization: Bearer sess_..."
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": {
+    "path": "index.js",
+    "content": "const { Client } = require('discord.js');\nconst client = new Client();\n...",
+    "size_bytes": 1024
+  }
+}
+```
+
+```json 404
+{
+  "success": false,
+  "error": "File not found: index.js"
+}
+```
+</ResponseExample>

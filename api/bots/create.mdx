@@ -1,0 +1,116 @@
+---
+title: "Create Bot"
+api: "POST https://api.phanomcloud.online/bots/create"
+description: "Creates a new bot. Does NOT start it automatically — use POST /bots/start after uploading your files."
+authMethod: "bearer"
+---
+
+## Body
+
+<ParamField body="name" type="string" required>
+  Bot name. Alphanumeric characters, underscores and hyphens only. Example: `my-bot`.
+</ParamField>
+
+<ParamField body="language" type="string" required>
+  Runtime language. One of: `nodejs`, `python`, `java`, `go`, `rust`.
+</ParamField>
+
+<ParamField body="memory" type="number" required>
+  RAM allocation in MB. Example: `256`, `512`, `1024`. The total across all your bots cannot exceed your plan limit.
+</ParamField>
+
+<ParamField body="startup_command" type="string" required>
+  Command to run when the bot starts. Example: `node index.js` or `python main.py`.
+</ParamField>
+
+<ParamField body="environment" type="object">
+  Key-value pairs of environment variables to inject into the bot's container.
+</ParamField>
+
+<Note>
+  **vCPU is calculated automatically** — 1 vCPU per 512 MB of RAM. A 256 MB bot gets 0.5 vCPU, a 1024 MB bot gets 2 vCPU.
+</Note>
+
+## Response
+
+<ResponseField name="data" type="object">
+  The created bot object with `status: "offline"`.
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.phanomcloud.online/bots/create \
+  -H "Authorization: Bearer sess_..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "my-discord-bot",
+    "language": "nodejs",
+    "memory": 256,
+    "startup_command": "node index.js",
+    "environment": {
+      "TOKEN": "your-bot-token",
+      "PREFIX": "!"
+    }
+  }'
+```
+
+```js JavaScript
+const res = await fetch("https://api.phanomcloud.online/bots/create", {
+  method: "POST",
+  headers: {
+    Authorization: "Bearer sess_...",
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    name: "my-discord-bot",
+    language: "nodejs",
+    memory: 256,
+    startup_command: "node index.js",
+    environment: { TOKEN: "your-bot-token" }
+  })
+});
+const { data } = await res.json();
+```
+
+```python Python
+import requests
+
+r = requests.post(
+  "https://api.phanomcloud.online/bots/create",
+  headers={"Authorization": "Bearer sess_..."},
+  json={
+    "name": "my-discord-bot",
+    "language": "python",
+    "memory": 256,
+    "startup_command": "python main.py",
+    "environment": {"TOKEN": "your-bot-token"}
+  }
+)
+print(r.json())
+```
+</RequestExample>
+
+<ResponseExample>
+```json 201
+{
+  "success": true,
+  "data": {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "name": "my-discord-bot",
+    "language": "nodejs",
+    "memory": 256,
+    "vcpu": 0.5,
+    "status": "offline",
+    "startup_command": "node index.js"
+  },
+  "message": "Bot created successfully. Use POST /bots/start to run it."
+}
+```
+
+```json 403
+{
+  "success": false,
+  "error": "Insufficient memory: need 256MB, only 128MB available"
+}
+```
+</ResponseExample>

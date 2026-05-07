@@ -1,0 +1,65 @@
+---
+title: "Errors"
+description: "Standard HTTP error codes returned by the ShardCloud API."
+---
+
+The API uses standard HTTP status codes. Every error response includes a `success: false` field and an `error` string describing what went wrong.
+
+```json
+{
+  "success": false,
+  "error": "Bot not found or does not belong to this user"
+}
+```
+
+## HTTP Status Codes
+
+| Code  | Meaning     | When it happens |
+|-------|-------------|-----------------|
+| `200` | OK          | Request succeeded |
+| `201` | Created     | Resource created successfully |
+| `400` | Bad Request | Invalid body, missing fields, or validation error |
+| `401` | Unauthorized | Token invalid, expired, or missing |
+| `403` | Forbidden   | Plan limit reached, insufficient memory, or no permission |
+| `404` | Not Found   | Bot, file, or backup doesn't exist or doesn't belong to you |
+| `409` | Conflict    | State conflict — e.g. bot already online, name already taken |
+| `429` | Too Many Requests | Rate limit exceeded |
+| `500` | Internal Server Error | Unexpected server-side failure |
+
+## Common Errors
+
+<AccordionGroup>
+
+<Accordion title="401 — Unauthorized">
+Your `session_token` is missing, invalid, or has been revoked. Re-authenticate to get a new one.
+
+```json
+{ "success": false, "error": "Unauthorized" }
+```
+</Accordion>
+
+<Accordion title="403 — Insufficient memory">
+Your plan does not have enough available memory to create or resize this bot.
+
+```json
+{ "success": false, "error": "Insufficient memory: need 512MB, only 256MB available" }
+```
+</Accordion>
+
+<Accordion title="409 — Bot already online">
+You tried to start a bot that is already running.
+
+```json
+{ "success": false, "error": "Bot is already online" }
+```
+</Accordion>
+
+<Accordion title="409 — Bot must be offline">
+Some operations (restore backup, reinstall deps) require the bot to be stopped first.
+
+```json
+{ "success": false, "error": "Bot must be offline before reinstalling dependencies. Stop the bot first." }
+```
+</Accordion>
+
+</AccordionGroup>

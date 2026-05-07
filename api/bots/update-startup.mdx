@@ -1,0 +1,37 @@
+---
+title: "Update Startup Command"
+api: "PATCH https://api.phanomcloud.online/bots/{id}/startup-command"
+description: "Updates the command used to start the bot. A restart is required to apply the change."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+## Body
+
+<ParamField body="startup_command" type="string" required>
+  New startup command. Example: `node src/main.js` or `python -u bot.py`.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X PATCH https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/startup-command \
+  -H "Authorization: Bearer sess_..." \
+  -H "Content-Type: application/json" \
+  -d '{ "startup_command": "node src/main.js" }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": { "startup_command": "node src/main.js" },
+  "message": "Startup command updated. Restart to apply."
+}
+```
+</ResponseExample>

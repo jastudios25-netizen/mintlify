@@ -1,0 +1,43 @@
+---
+title: "Delete Backup"
+api: "DELETE https://api.phanomcloud.online/bots/{id}/backups/{backupId}"
+description: "Permanently deletes a backup. Only allowed after the backup is at least 1 hour old."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+<ParamField path="backupId" type="string" required>
+  UUID of the backup to delete.
+</ParamField>
+
+<Note>
+  Check `can_delete: true` in the list response before attempting to delete.
+</Note>
+
+<RequestExample>
+```bash cURL
+curl -X DELETE "https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/backups/c1a2b3d4-0000-0000-0000-000000000001" \
+  -H "Authorization: Bearer sess_..."
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "message": "Backup deleted."
+}
+```
+
+```json 403
+{
+  "success": false,
+  "error": "Cannot delete a backup created less than 1 hour ago."
+}
+```
+</ResponseExample>

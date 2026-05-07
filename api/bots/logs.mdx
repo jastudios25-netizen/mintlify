@@ -1,0 +1,42 @@
+---
+title: "Get Logs"
+api: "GET https://api.phanomcloud.online/bots/{id}/logs"
+description: "Returns the last N lines of stdout/stderr logs captured from the bot's Docker container."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+## Query Parameters
+
+<ParamField query="lines" type="number" default="100">
+  Number of log lines to return. Maximum: `500`.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl "https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/logs?lines=50" \
+  -H "Authorization: Bearer sess_..."
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": {
+    "bot_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "lines": 3,
+    "logs": [
+      "[2025-01-15 10:00:01] Bot started successfully",
+      "[2025-01-15 10:00:02] Connected to Discord",
+      "[2025-01-15 10:00:05] Listening for commands..."
+    ]
+  }
+}
+```
+</ResponseExample>

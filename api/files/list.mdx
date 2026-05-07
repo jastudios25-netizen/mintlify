@@ -1,0 +1,37 @@
+---
+title: "List Files"
+api: "GET https://api.phanomcloud.online/bots/{id}/files"
+description: "Lists all files in the bot's directory along with total disk usage."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/files \
+  -H "Authorization: Bearer sess_..."
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": {
+    "bot_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "has_files": true,
+    "total_size_bytes": 102400,
+    "files": [
+      { "name": "index.js", "size": 4096, "type": "file" },
+      { "name": "package.json", "size": 512, "type": "file" },
+      { "name": "src", "type": "directory" }
+    ]
+  }
+}
+```
+</ResponseExample>

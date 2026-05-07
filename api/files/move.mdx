@@ -1,0 +1,47 @@
+---
+title: "Move File"
+api: "POST https://api.phanomcloud.online/bots/{id}/files/move"
+description: "Moves or renames a file or folder within the bot's directory."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+## Body
+
+<ParamField body="src" type="string" required>
+  Source path (relative to bot root). Example: `src/old-name.js`.
+</ParamField>
+
+<ParamField body="dest" type="string" required>
+  Destination path (relative to bot root). Example: `src/new-name.js`. To rename, keep the same parent directory.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/files/move \
+  -H "Authorization: Bearer sess_..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "src": "src/old-handler.js",
+    "dest": "src/handler.js"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": {
+    "src": "src/old-handler.js",
+    "dest": "src/handler.js"
+  },
+  "message": "Moved \"src/old-handler.js\" → \"src/handler.js\""
+}
+```
+</ResponseExample>

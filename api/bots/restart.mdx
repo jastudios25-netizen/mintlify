@@ -1,0 +1,46 @@
+---
+title: "Restart Bot"
+api: "POST https://api.phanomcloud.online/bots/restart"
+description: "Stops and restarts a bot. Returns immediately — the restart happens in the background."
+authMethod: "bearer"
+---
+
+## Body
+
+<ParamField body="bot_id" type="string" required>
+  UUID of the bot to restart.
+</ParamField>
+
+<Info>
+  Track the restart progress via `GET /bots/:id` or `GET /bots/:id/logs/stream`.
+</Info>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.phanomcloud.online/bots/restart \
+  -H "Authorization: Bearer sess_..." \
+  -H "Content-Type: application/json" \
+  -d '{ "bot_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6" }'
+```
+
+```js JavaScript
+await fetch("https://api.phanomcloud.online/bots/restart", {
+  method: "POST",
+  headers: {
+    Authorization: "Bearer sess_...",
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ bot_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6" })
+});
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "message": "Bot \"my-discord-bot\" is restarting",
+  "data": { "status": "starting" }
+}
+```
+</ResponseExample>

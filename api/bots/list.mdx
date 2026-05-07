@@ -1,0 +1,73 @@
+---
+title: "List Bots"
+api: "GET https://api.phanomcloud.online/bots"
+description: "Returns all bots belonging to the authenticated user."
+authMethod: "bearer"
+---
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  Always `true` on success.
+</ResponseField>
+
+<ResponseField name="data" type="array">
+  Array of bot objects.
+
+  <Expandable title="Bot object">
+    <ResponseField name="id" type="string">UUID of the bot.</ResponseField>
+    <ResponseField name="name" type="string">Bot name.</ResponseField>
+    <ResponseField name="language" type="string">Runtime: `nodejs`, `python`, `java`, `go`, `rust`.</ResponseField>
+    <ResponseField name="status" type="string">`offline`, `starting`, `online`, `stopping`, or `error`.</ResponseField>
+    <ResponseField name="memory" type="number">Allocated RAM in MB.</ResponseField>
+    <ResponseField name="vcpu" type="number">Allocated vCPU (1 vCPU per 512 MB).</ResponseField>
+    <ResponseField name="startup_command" type="string">Command used to start the bot.</ResponseField>
+    <ResponseField name="subdomain" type="string | null">Custom subdomain if configured.</ResponseField>
+    <ResponseField name="created_at" type="string">ISO 8601 creation timestamp.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl https://api.phanomcloud.online/bots \
+  -H "Authorization: Bearer sess_..."
+```
+
+```js JavaScript
+const res = await fetch("https://api.phanomcloud.online/bots", {
+  headers: { Authorization: "Bearer sess_..." }
+});
+const { data } = await res.json();
+```
+
+```python Python
+import requests
+
+r = requests.get(
+  "https://api.phanomcloud.online/bots",
+  headers={"Authorization": "Bearer sess_..."}
+)
+print(r.json())
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "name": "my-discord-bot",
+      "language": "nodejs",
+      "status": "online",
+      "memory": 256,
+      "vcpu": 0.5,
+      "startup_command": "node index.js",
+      "subdomain": "my-discord-bot",
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  ]
+}
+```
+</ResponseExample>

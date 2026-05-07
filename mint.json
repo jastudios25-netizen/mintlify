@@ -1,0 +1,124 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "ShardCloud",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#6366f1",
+    "light": "#818cf8",
+    "dark": "#4f46e5",
+    "anchors": {
+      "from": "#6366f1",
+      "to": "#818cf8"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Dashboard",
+      "url": "https://shardcloud.app"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Get Started",
+    "url": "https://shardcloud.app"
+  },
+  "tabs": [
+    {
+      "name": "API Reference",
+      "url": "api"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Support",
+      "icon": "discord",
+      "url": "https://discord.gg/shardcloud"
+    },
+    {
+      "name": "Status",
+      "icon": "signal",
+      "url": "https://status.shardcloud.app"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "introduction",
+        "authentication",
+        "errors"
+      ]
+    },
+    {
+      "group": "Bots",
+      "pages": [
+        "api/bots/list",
+        "api/bots/get",
+        "api/bots/create",
+        "api/bots/delete",
+        "api/bots/start",
+        "api/bots/stop",
+        "api/bots/restart",
+        "api/bots/update-startup",
+        "api/bots/update-memory",
+        "api/bots/console",
+        "api/bots/reinstall-deps"
+      ]
+    },
+    {
+      "group": "Logs",
+      "pages": [
+        "api/bots/logs",
+        "api/bots/logs-stream"
+      ]
+    },
+    {
+      "group": "Metrics",
+      "pages": [
+        "api/metrics/current",
+        "api/metrics/history",
+        "api/metrics/stream"
+      ]
+    },
+    {
+      "group": "Files",
+      "pages": [
+        "api/files/upload",
+        "api/files/list",
+        "api/files/read",
+        "api/files/write",
+        "api/files/delete",
+        "api/files/move",
+        "api/files/rename"
+      ]
+    },
+    {
+      "group": "Backups",
+      "pages": [
+        "api/backups/list",
+        "api/backups/create",
+        "api/backups/restore",
+        "api/backups/delete",
+        "api/backups/download"
+      ]
+    },
+    {
+      "group": "Apps",
+      "pages": [
+        "api/apps/check-subdomain"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "discord": "https://discord.gg/shardcloud"
+  },
+  "api": {
+    "baseUrl": "https://api.phanomcloud.online",
+    "auth": {
+      "method": "bearer"
+    }
+  }
+}

@@ -1,0 +1,63 @@
+---
+title: "Create Backup"
+api: "POST https://api.phanomcloud.online/bots/{id}/backups"
+description: "Creates a ZIP backup of all files in the bot's directory. Excludes node_modules, __pycache__, and .git."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+## Body
+
+<ParamField body="name" type="string" required>
+  A label for this backup. Between 2 and 64 characters. Must be unique per bot. Example: `before-v2-update`.
+</ParamField>
+
+<Note>
+  Maximum **8 backups** per bot. Delete an old one before creating a new backup if you've reached the limit.
+</Note>
+
+<RequestExample>
+```bash cURL
+curl -X POST https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/backups \
+  -H "Authorization: Bearer sess_..." \
+  -H "Content-Type: application/json" \
+  -d '{ "name": "before-v2-update" }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 201
+{
+  "success": true,
+  "data": {
+    "id": "c1a2b3d4-0000-0000-0000-000000000001",
+    "name": "before-v2-update",
+    "size_bytes": 45678,
+    "size_display": "44.6 KB",
+    "download_url": "https://api.phanomcloud.online/backups/c1a2b3d4.../download?token=...&user=...",
+    "created_at": "2025-01-15T10:00:00Z",
+    "can_delete": false
+  },
+  "message": "Backup \"before-v2-update\" created successfully."
+}
+```
+
+```json 403
+{
+  "success": false,
+  "error": "Maximum number of backups reached (8). Delete one before creating a new backup."
+}
+```
+
+```json 409
+{
+  "success": false,
+  "error": "A backup with this name already exists"
+}
+```
+</ResponseExample>

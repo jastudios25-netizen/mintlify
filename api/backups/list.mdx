@@ -1,0 +1,59 @@
+---
+title: "List Backups"
+api: "GET https://api.phanomcloud.online/bots/{id}/backups"
+description: "Lists all backups for a bot. Maximum of 8 backups per bot."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+## Response
+
+<ResponseField name="data.count" type="number">Current number of backups.</ResponseField>
+<ResponseField name="data.max" type="number">Maximum allowed backups per bot (`8`).</ResponseField>
+<ResponseField name="data.backups" type="array">
+  <Expandable title="Backup object">
+    <ResponseField name="id" type="string">UUID of the backup.</ResponseField>
+    <ResponseField name="name" type="string">Human-readable backup name.</ResponseField>
+    <ResponseField name="size_bytes" type="number">Size of the ZIP in bytes.</ResponseField>
+    <ResponseField name="size_display" type="string">Human-readable size. Example: `44.6 KB`.</ResponseField>
+    <ResponseField name="download_url" type="string">HMAC-signed download URL valid for ~1 hour.</ResponseField>
+    <ResponseField name="created_at" type="string">ISO 8601 creation timestamp.</ResponseField>
+    <ResponseField name="can_delete" type="boolean">`true` if the backup is older than 1 hour.</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash cURL
+curl https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/backups \
+  -H "Authorization: Bearer sess_..."
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": {
+    "bot_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "count": 2,
+    "max": 8,
+    "backups": [
+      {
+        "id": "c1a2b3d4-0000-0000-0000-000000000001",
+        "name": "before-v2-update",
+        "size_bytes": 45678,
+        "size_display": "44.6 KB",
+        "download_url": "https://api.phanomcloud.online/backups/c1a2b3d4.../download?token=...&user=...",
+        "created_at": "2025-01-15T10:00:00Z",
+        "can_delete": true
+      }
+    ]
+  }
+}
+```
+</ResponseExample>

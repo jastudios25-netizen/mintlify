@@ -1,0 +1,53 @@
+---
+title: "Update Memory"
+api: "PATCH https://api.phanomcloud.online/bots/{id}/memory"
+description: "Resizes the RAM allocation of a bot. A restart is required for the new limit to be applied in Docker."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+## Body
+
+<ParamField body="memory" type="number" required>
+  New RAM amount in MB. Minimum: `64`. Your plan must have enough available memory to increase.
+</ParamField>
+
+<Note>
+  vCPU is recalculated automatically (1 vCPU per 512 MB). You can always decrease memory. To increase, you need available headroom in your plan.
+</Note>
+
+<RequestExample>
+```bash cURL
+curl -X PATCH https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/memory \
+  -H "Authorization: Bearer sess_..." \
+  -H "Content-Type: application/json" \
+  -d '{ "memory": 512 }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": {
+    "memory": 512,
+    "vcpu": 1.0,
+    "memory_mb": 512,
+    "memory_gb": "0.50"
+  },
+  "message": "Memory updated to 512MB. Restart the bot to apply the new limit."
+}
+```
+
+```json 403
+{
+  "success": false,
+  "error": "Insufficient memory: need 256MB more, only 128MB available"
+}
+```
+</ResponseExample>

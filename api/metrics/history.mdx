@@ -1,0 +1,53 @@
+---
+title: "Metrics History"
+api: "GET https://api.phanomcloud.online/bots/{id}/metrics/history"
+description: "Returns up to 30 minutes of metrics history. One data point every 30 seconds (max 60 points)."
+authMethod: "bearer"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  UUID of the bot.
+</ParamField>
+
+## Query Parameters
+
+<ParamField query="minutes" type="number" default="30">
+  How many minutes of history to return. Min: `1`, Max: `30`.
+</ParamField>
+
+<RequestExample>
+```bash cURL
+curl "https://api.phanomcloud.online/bots/3fa85f64-5717-4562-b3fc-2c963f66afa6/metrics/history?minutes=10" \
+  -H "Authorization: Bearer sess_..."
+```
+</RequestExample>
+
+<ResponseExample>
+```json 200
+{
+  "success": true,
+  "data": {
+    "bot_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "minutes": 10,
+    "points": 20,
+    "interval_seconds": 30,
+    "history": [
+      {
+        "timestamp": "2025-01-15T09:50:00Z",
+        "cpu_percent": 5.2,
+        "ram_used": 100663296,
+        "ram_limit": 268435456,
+        "ram_percent": 37.5,
+        "net_rx": 1000000,
+        "net_tx": 500000,
+        "net_rx_rate": 800.0,
+        "net_tx_rate": 200.0,
+        "pids": 3
+      }
+    ]
+  }
+}
+```
+</ResponseExample>
