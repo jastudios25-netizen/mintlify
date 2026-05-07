@@ -96,8 +96,7 @@
             "group": "Metrics",
             "pages": [
               "api/metrics/current",
-              "api/metrics/history",
-              "api/metrics/stream"
+              "api/metrics/history"
             ]
           },
           {
