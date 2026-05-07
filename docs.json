@@ -2,9 +2,9 @@
   "theme": "mint",
   "name": "PhanomCloud",
   "colors": {
-    "primary": "#6366f1",
-    "light": "#818cf8",
-    "dark": "#4f46e5"
+    "primary": #f4f4f4",
+    "light": "#e1e1e1",
+    "dark": "#cccccc"
   },
   "favicon": "/favicon.svg",
   "logo": {
@@ -35,7 +35,7 @@
   },
   "footer": {
     "socials": {
-      "discord": "https://discord.gg/phanomcloud"
+      "discord": "https://discord.gg/VjvDkzRNxA"
     }
   },
   "navigation": {
