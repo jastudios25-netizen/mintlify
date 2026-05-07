@@ -18,12 +18,12 @@
   "topbarLinks": [
     {
       "name": "Dashboard",
-      "url": "https://phanomcloud.online/dashboard"
+      "url": "https://shardcloud.app"
     }
   ],
   "topbarCtaButton": {
     "name": "Get Started",
-    "url": "https://phanomcloud.online"
+    "url": "https://shardcloud.app"
   },
   "tabs": [
     {
@@ -35,12 +35,12 @@
     {
       "name": "Support",
       "icon": "discord",
-      "url": "https://discord.gg/VjvDkzRNxA"
+      "url": "https://discord.gg/shardcloud"
     },
     {
       "name": "Status",
       "icon": "signal",
-      "url": "https://status.https://phanomcloud.online"
+      "url": "https://status.shardcloud.app"
     }
   ],
   "navigation": [
@@ -113,7 +113,7 @@
     }
   ],
   "footerSocials": {
-    "discord": "https://discord.gg/VjvDkzRNxA"
+    "discord": "https://discord.gg/shardcloud"
   },
   "api": {
     "baseUrl": "https://api.phanomcloud.online",
