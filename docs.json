@@ -2,9 +2,9 @@
   "theme": "mint",
   "name": "PhanomCloud",
   "colors": {
-    "primary": "#f4f4f4",
-    "light": "#e1e1e1",
-    "dark": "#cccccc"
+    "primary": "#dddddd",
+    "light": "#bcbcbc",
+    "dark": "#959494"
   },
   "favicon": "/favicon.svg",
   "logo": {
