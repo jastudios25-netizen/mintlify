@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "ShardCloud",
+  "name": "PhanomCloud",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
@@ -18,12 +18,12 @@
   "topbarLinks": [
     {
       "name": "Dashboard",
-      "url": "https://shardcloud.app"
+      "url": "https://phanomcloud.online/dashboard"
     }
   ],
   "topbarCtaButton": {
     "name": "Get Started",
-    "url": "https://shardcloud.app"
+    "url": "https://phanomcloud.online/dashboard"
   },
   "tabs": [
     {
@@ -35,12 +35,12 @@
     {
       "name": "Support",
       "icon": "discord",
-      "url": "https://discord.gg/shardcloud"
+      "url": "https://discord.gg/phanomcloud"
     },
     {
       "name": "Status",
       "icon": "signal",
-      "url": "https://status.shardcloud.app"
+      "url": "https://status.phanomcloud.app"
     }
   ],
   "navigation": [
@@ -113,7 +113,7 @@
     }
   ],
   "footerSocials": {
-    "discord": "https://discord.gg/shardcloud"
+    "discord": "https://discord.gg/phanomcloud"
   },
   "api": {
     "baseUrl": "https://api.phanomcloud.online",
